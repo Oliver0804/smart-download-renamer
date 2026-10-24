@@ -2,6 +2,12 @@
 
 Firefox 擴充套件：下載檔案時自動依「**下載當下頁面的資訊與 URL**」呼叫 [OpenRouter](https://openrouter.ai) 指定的模型，預測一個具描述性的新檔名。命名失敗時自動退回原始檔名，不會弄丟任何下載。
 
+![設定頁](screenshots/options.png)
+
+設定頁內建**診斷記錄**，每個下載被處理的原因一目瞭然：
+
+![診斷記錄](screenshots/diagnostics.png)
+
 ## 運作方式
 
 Firefox 沒有提供「下載時改檔名」的擴充套件 API（`downloads.onDeterminingFilename` 至今未實作，見 [Bug 1245652](https://bugzilla.mozilla.org/show_bug.cgi?id=1245652)），因此本套件採用「**暫停 → 命名 → 取消重抓**」流程：
