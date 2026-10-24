@@ -36,7 +36,7 @@ onCreated 偵測新下載
 
 - **一般版 Firefox**：未簽署的 xpi 無法永久安裝，只能用上方「臨時載入」方式
 - **Firefox Developer Edition / Nightly**：到 `about:config` 把 `xpinstall.signatures.required` 設為 `false`，即可在 `about:addons` → 齒輪 → 「從檔案安裝附加元件」永久安裝
-- 正式簽署版需提交 [Firefox Add-ons (AMO)](https://addons.mozilla.org/developers/) 審核
+- 正式簽署版：已提交 [Firefox Add-ons (AMO)](https://addons.mozilla.org/firefox/addon/smart-download-renamer-openrou/) 審核，通過後可直接線上安裝
 
 ## 設定項
 

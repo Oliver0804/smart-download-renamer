@@ -1,0 +1,18 @@
+{
+  "categories": {
+    "firefox": ["other"]
+  },
+  "version": {
+    "custom_license": {
+      "name": { "en-US": "MIT License" },
+      "text": {
+        "en-US": "MIT License — Copyright (c) 2026 Oliver0804. Full text: https://github.com/Oliver0804/smart-download-renamer/blob/main/LICENSE"
+      }
+    },
+    "release_notes": {
+      "en-US": "Initial release: AI-powered download renaming via OpenRouter.",
+      "zh-TW": "首次發布：依頁面內容由 OpenRouter 模型自動重新命名下載檔案。"
+    },
+    "approval_notes": "Source code: https://github.com/Oliver0804/smart-download-renamer (MIT). The add-on intercepts downloads (downloads.onCreated), pauses them, collects page context (title/H1/meta/anchor text/excerpt) via a content script, calls the OpenRouter API (user-supplied key, https://openrouter.ai only) to suggest a filename, then cancels the original download and re-downloads it with the new name via downloads.download(). Fallbacks always restore the original download. No data is collected by the developer; page context goes only to the OpenRouter API the user configures."
+  }
+}
