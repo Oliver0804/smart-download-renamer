@@ -100,7 +100,6 @@
         apiKey: s.apiKey,
         model: s.model,
         messages: [{ role: "user", content: "請只回覆兩個字：成功" }],
-        maxTokens: 10,
         timeoutMs: s.timeoutMs,
       });
       els.testResult.textContent = "✓ 連線成功，模型回覆：" + SDR.openRouter.extractName(reply);

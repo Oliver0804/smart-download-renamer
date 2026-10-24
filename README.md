@@ -30,6 +30,14 @@ onCreated 偵測新下載
 
 > 暫時載入的套件在重啟 Firefox 後會消失；長期使用請 `web-ext build` 打包成 xpi，再到 `about:addons` → 齒輪 → 「從檔案安裝附加元件」。
 
+## 安裝（Release 下載）
+
+到 [Releases](https://github.com/Oliver0804/smart-download-renamer/releases) 下載 `.xpi` 檔：
+
+- **一般版 Firefox**：未簽署的 xpi 無法永久安裝，只能用上方「臨時載入」方式
+- **Firefox Developer Edition / Nightly**：到 `about:config` 把 `xpinstall.signatures.required` 設為 `false`，即可在 `about:addons` → 齒輪 → 「從檔案安裝附加元件」永久安裝
+- 正式簽署版需提交 [Firefox Add-ons (AMO)](https://addons.mozilla.org/developers/) 審核
+
 ## 設定項
 
 | 設定 | 說明 |
