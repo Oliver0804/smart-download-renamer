@@ -11,7 +11,7 @@
   const DEFAULTS = Object.freeze({
     enabled: true,          // 總開關
     apiKey: "",             // OpenRouter API Key
-    model: "openai/gpt-4o-mini", // 可換成任何 OpenRouter 模型 ID
+    model: "openai/gpt-oss-20b", // 可換成任何 OpenRouter 模型 ID（見 README 候選名單）
     prompt: "",             // 空 → 使用 lib/context.js 的 DEFAULT_PROMPT
     languageMode: "auto",   // auto | zh | en
     includePageText: true,  // 是否送頁面正文節錄

@@ -75,7 +75,7 @@ onCreated 偵測新下載
 | 模型 ID | 輸入 / 輸出（每 M token） |
 | --- | --- |
 | `inclusionai/ling-3.0-flash` | $0.02 / $0.06 |
-| `openai/gpt-oss-20b`（**預設**） | $0.02 / $0.09 |
+| `openai/gpt-oss-20b`（**預設**） | $0.02 / $0.09（推理模型，套件已自動調低推理強度） |
 | `ibm-granite/granite-4.0-h-micro` | $0.02 / $0.11 |
 | `mistralai/mistral-nemo` | $0.03 / $0.03 |
 | `google/gemma-3-4b-it` | $0.04 / $0.05 |
