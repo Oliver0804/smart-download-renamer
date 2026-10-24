@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Smart Download Renamer (OpenRouter)",
+  "version": "0.2.0",
+  "description": "下載檔案時自動依「下載當下頁面內容與 URL」由 OpenRouter 模型智慧重新命名。",
+  "author": "oliver",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "smart-download-renamer@oliver.local",
+      "strict_min_version": "115.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
+  "icons": {
+    "48": "icons/icon.svg",
+    "96": "icons/icon.svg",
+    "128": "icons/icon.svg"
+  },
+  "permissions": ["downloads", "storage", "tabs", "webRequest"],
+  "host_permissions": ["https://openrouter.ai/*"],
+  "background": {
+    "scripts": [
+      "lib/settings.js",
+      "lib/sanitize.js",
+      "lib/context.js",
+      "lib/openrouter.js",
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/content.js"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ],
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  }
+}

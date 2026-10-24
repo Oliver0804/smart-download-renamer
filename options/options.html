@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <title>Smart Download Renamer 設定</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      font: 14px/1.6 -apple-system, "Segoe UI", "Noto Sans TC", sans-serif;
+      max-width: 640px; margin: 0 auto; padding: 24px;
+    }
+    h1 { font-size: 20px; }
+    fieldset { border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+               border-radius: 8px; margin-bottom: 20px; padding: 12px 16px 16px; }
+    legend { font-weight: 600; padding: 0 6px; }
+    label { display: block; margin-top: 12px; font-weight: 500; }
+    .hint { font-size: 12px; opacity: .75; margin: 2px 0 0; }
+    input[type="text"], input[type="password"], input[type="number"], textarea, select {
+      width: 100%; box-sizing: border-box; margin-top: 4px; padding: 7px 9px;
+      border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+      border-radius: 6px; background: transparent; color: inherit; font: inherit;
+    }
+    textarea { min-height: 90px; resize: vertical; }
+    .row { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
+    button { padding: 8px 18px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; font: inherit; }
+    button.primary { background: #6366f1; color: #fff; }
+    button.secondary { background: transparent; border-color: color-mix(in srgb, currentColor 30%, transparent); color: inherit; }
+    #status { margin-left: auto; font-weight: 600; }
+    #status.ok { color: #16a34a; }
+    #status.err { color: #dc2626; }
+    #testResult { margin-top: 10px; font-size: 13px; }
+    ul.diag { list-style: none; padding: 0; margin: 8px 0 0; font-size: 12px; max-height: 260px; overflow-y: auto; }
+    ul.diag li { padding: 4px 0; border-bottom: 1px dashed color-mix(in srgb, currentColor 15%, transparent); word-break: break-all; }
+    ul.diag li .t { opacity: .6; margin-right: 6px; }
+    ul.diag li.empty { opacity: .6; }
+    .toggle { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-weight: 500; }
+    code { background: color-mix(in srgb, currentColor 10%, transparent); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>Smart Download Renamer</h1>
+  <p>下載檔案時，自動依「下載當下頁面的資訊與 URL」由 OpenRouter 模型預測新檔名。失敗時自動保留原始檔名。</p>
+
+  <fieldset>
+    <legend>基本</legend>
+    <div class="toggle">
+      <input type="checkbox" id="enabled" />
+      <label for="enabled" style="margin:0">啟用自動重新命名</label>
+    </div>
+    <label for="apiKey">OpenRouter API Key</label>
+    <input type="password" id="apiKey" placeholder="sk-or-v1-..." autocomplete="off" />
+    <p class="hint">只儲存在本機（storage.local），只傳送給 openrouter.ai。取得金鑰：<a href="https://openrouter.ai/keys" target="_blank" rel="noreferrer">openrouter.ai/keys</a></p>
+    <label for="model">模型 ID</label>
+    <input type="text" id="model" placeholder="openai/gpt-oss-20b" />
+    <p class="hint">建議候選（由省到貴）：<code>openrouter/free</code>、<code>nvidia/nemotron-3.5-lightning:free</code>、<code>openai/gpt-oss-20b</code>、<code>inclusionai/ling-3.0-flash</code>、<code>mistralai/mistral-nemo</code>、<code>openai/gpt-4o-mini</code>。完整名單見 README。</p>
+  </fieldset>
+
+  <fieldset>
+    <legend>命名行為</legend>
+    <label for="languageMode">檔名語言</label>
+    <select id="languageMode">
+      <option value="auto">跟隨頁面內容語言</option>
+      <option value="zh">一律繁體中文</option>
+      <option value="en">一律英文</option>
+    </select>
+    <label for="prompt">命名指示（Prompt，留空使用預設）</label>
+    <textarea id="prompt" placeholder=""></textarea>
+    <p class="hint">可使用 <code>{LANG_RULE}</code> 佔位符，會替換成上方選擇的語言規則。</p>
+    <div class="toggle">
+      <input type="checkbox" id="includePageText" />
+      <label for="includePageText" style="margin:0">送出頁面文字節錄（命名更準，但送出更多內容）</label>
+    </div>
+    <label for="pageTextLimit">節錄上限（字元）</label>
+    <input type="number" id="pageTextLimit" min="200" max="8000" step="100" />
+    <label for="skipExtensions">略過這些副檔名的下載（逗號分隔）</label>
+    <input type="text" id="skipExtensions" />
+  </fieldset>
+
+  <fieldset>
+    <legend>進階</legend>
+    <label for="timeoutMs">API 逾時（毫秒）</label>
+    <input type="number" id="timeoutMs" min="3000" max="60000" step="1000" />
+    <div class="toggle">
+      <input type="checkbox" id="debug" />
+      <label for="debug" style="margin:0">輸出除錯日誌（about:debugging → 檢查）</label>
+    </div>
+  </fieldset>
+
+  <div class="row">
+    <button class="primary" id="save">儲存設定</button>
+    <button class="secondary" id="test">儲存並測試 API 連線</button>
+    <span id="status"></span>
+  </div>
+  <div id="testResult"></div>
+
+  <fieldset>
+    <legend>診斷</legend>
+    <p class="hint">最近的下載處理記錄（最新在前）。下載沒有被改名時，這裡會顯示原因。</p>
+    <ul id="diagList" class="diag"></ul>
+    <div class="row" style="margin-top:8px">
+      <button class="secondary" id="refreshDiag">重新整理</button>
+    </div>
+  </fieldset>
+
+  <p class="hint" style="margin-top:20px">
+    ⚠️ 隱私提示：啟用後，下載當下分頁的標題、網址與（若勾選）頁面文字節錄會傳送給 OpenRouter 與其背後的模型供應商。
+    處理敏感頁面時，可暫時關閉總開關。
+  </p>
+
+  <script src="../lib/settings.js"></script>
+  <script src="../lib/context.js"></script>
+  <script src="../lib/openrouter.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

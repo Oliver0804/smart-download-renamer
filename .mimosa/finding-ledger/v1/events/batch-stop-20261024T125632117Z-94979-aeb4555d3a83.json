@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "mimosa-finding-ledger-batch/v1",
+  "batchId": "stop-20261024T125632117Z-94979-aeb4555d3a83",
+  "runId": "20261024T125632117Z-94979-aeb4555d3a83",
+  "runStatus": "completed",
+  "coverage": {
+    "status": "complete",
+    "reasons": []
+  },
+  "source": {
+    "component": "zcode-hook",
+    "operationId": "Stop"
+  },
+  "revision": null,
+  "diffHash": "24b8c0e2d138a91e7fabe3551eca93cfb878172232b5646e7d85789bbf92dfb0",
+  "rulesVersion": "unavailable",
+  "sessionHash": "997d2c5f29b8102efa267250adcf808b8d0bd99e96dc3e6d2e70ddb45c49a8bd",
+  "reportRef": ".mimosa/reports/task-review-session_81e1b839eba84de9a98fbc862fefbce9-20261024T125632117Z-94979-aeb4555d3a83.json",
+  "events": [],
+  "observedFindingIds": [],
+  "verifiedFiles": [
+    {
+      "file": "content/content.js",
+      "direct": "complete",
+      "projectContext": "partial"
+    },
+    {
+      "file": "options/options.js",
+      "direct": "complete",
+      "projectContext": "partial"
+    },
+    {
+      "file": "tests/run-tests.js",
+      "direct": "complete",
+      "projectContext": "partial"
+    },
+    {
+      "file": "lib/sanitize.js",
+      "direct": "complete",
+      "projectContext": "partial"
+    }
+  ],
+  "recordedAt": "2026-10-24T12:56:32.408Z"
+}

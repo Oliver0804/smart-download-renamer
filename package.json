@@ -1,0 +1,21 @@
+{
+  "name": "smart-download-renamer",
+  "version": "0.2.0",
+  "description": "Firefox 附加元件：下載檔案時依頁面內容與 URL，由 OpenRouter 模型自動智慧重新命名",
+  "license": "MIT",
+  "author": "Oliver0804",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oliver0804/smart-download-renamer.git"
+  },
+  "scripts": {
+    "test": "node tests/run-tests.js",
+    "lint": "web-ext lint",
+    "build": "web-ext build",
+    "run": "web-ext run"
+  },
+  "devDependencies": {
+    "web-ext": "^8.0.0"
+  },
+  "private": true
+}

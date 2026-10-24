@@ -1,0 +1,58 @@
+/*
+ * 設定值：預設值與 storage.local 讀寫。
+ * 同時可於 Node 載入（單元測試用）；只有呼叫 get/set 才需要瀏覽器 API。
+ */
+(function (global) {
+  "use strict";
+
+  const SDR = (global.SDR = global.SDR || {});
+  const api = global.browser || global.chrome || null;
+
+  const DEFAULTS = Object.freeze({
+    enabled: true,          // 總開關
+    apiKey: "",             // OpenRouter API Key
+    model: "openai/gpt-4o-mini", // 可換成任何 OpenRouter 模型 ID
+    prompt: "",             // 空 → 使用 lib/context.js 的 DEFAULT_PROMPT
+    languageMode: "auto",   // auto | zh | en
+    includePageText: true,  // 是否送頁面正文節錄
+    pageTextLimit: 2000,    // 正文節錄上限（字元）
+    skipExtensions: ".crdownload,.part,.download", // 這些副檔名不處理
+    timeoutMs: 10000,       // OpenRouter 呼叫逾時
+    debug: false,           // 額外除錯日誌
+  });
+
+  let cache = null;
+
+  async function load() {
+    if (!api || !api.storage) return Object.assign({}, DEFAULTS);
+    const stored = await api.storage.local.get(Object.keys(DEFAULTS));
+    return Object.assign({}, DEFAULTS, stored);
+  }
+
+  async function getSettings() {
+    if (!cache) cache = await load();
+    return Object.assign({}, cache);
+  }
+
+  async function setSettings(patch) {
+    if (!api || !api.storage) return getSettings();
+    await api.storage.local.set(patch);
+    cache = await load();
+    return Object.assign({}, cache);
+  }
+
+  // 設定頁存檔後讓快取失效，背景下次讀取即為新值
+  if (api && api.storage && api.storage.onChanged) {
+    api.storage.onChanged.addListener((changes, area) => {
+      if (area === "local" && Object.keys(changes).some((k) => k in DEFAULTS)) {
+        cache = null;
+      }
+    });
+  }
+
+  SDR.settings = { DEFAULTS, getSettings, setSettings };
+
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = SDR.settings;
+  }
+})(typeof globalThis !== "undefined" ? globalThis : this);
